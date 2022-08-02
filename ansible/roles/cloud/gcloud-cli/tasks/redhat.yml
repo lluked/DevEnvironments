@@ -1,0 +1,26 @@
+---
+
+- name: google-cloud-sdk repository
+  ansible.builtin.yum_repository:
+    name: google-cloud-sdk
+    description: google-cloud-sdk
+    baseurl: https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: ['https://packages.cloud.google.com/yum/doc/yum-key.gpg','https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg']
+    file: google-cloud-sdk
+  become: true
+
+- name: Set crypto policies to legacy to allow rhel 9 to use sha1 key
+  ansible.builtin.command: update-crypto-policies --set LEGACY
+  become: true
+
+- name: Install google-cloud-cli
+  ansible.builtin.yum:
+    name: ['google-cloud-cli']
+    state: present
+  become: true
+
+- name: Revert crypto policies
+  ansible.builtin.command: update-crypto-policies --set DEFAULT
+  become: true

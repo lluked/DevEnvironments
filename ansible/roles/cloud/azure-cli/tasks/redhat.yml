@@ -1,0 +1,20 @@
+---
+
+- name: Add azure-cli repository
+  ansible.builtin.yum_repository:
+    name: azure-cli
+    description: azure-cli
+    baseurl: https://packages.microsoft.com/yumrepos/azure-cli
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+    file: vscode
+  become: true
+
+- name: Install azure-cli
+  ansible.builtin.yum:
+    name: ['azure-cli']
+    state: present
+  # Install currently fails due to python dependencies so ignore errors for now
+  ignore_errors: true
+  become: true

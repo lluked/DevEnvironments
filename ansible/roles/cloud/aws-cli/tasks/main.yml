@@ -1,0 +1,54 @@
+---
+
+- name: Download awscliv2
+  ansible.builtin.get_url:
+    url : "{{ item.url }}"
+    dest: "{{ ansible_user_dir }}/{{ item.dest }}"
+    force: yes
+  loop:
+    - { url: 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip', dest: 'awscliv2.zip' }
+    - { url: 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig', dest: 'awscliv2.zip.sig' }
+
+- name: Copy aws-cli key
+  ansible.builtin.copy:
+    src: aws-cli.key
+    dest: "{{ ansible_user_dir }}/aws-cli.key"
+    force: yes
+
+- name: Install aws-cli gpg key
+  ansible.builtin.command: "gpg --import aws-cli.key"
+  args:
+    chdir: "{{ ansible_user_dir }}"
+  become: true
+
+- name: Verify awscliv2
+  ansible.builtin.command: "gpg --verify awscliv2.zip.sig awscliv2.zip"
+  args:
+    chdir: "{{ ansible_user_dir }}"
+  ignore_errors: true
+  register: awscliv2_verify
+  become: true
+
+- name: Extract
+  ansible.builtin.unarchive:
+    src: "{{ ansible_user_dir }}/awscliv2.zip"
+    dest: "{{ ansible_user_dir }}"
+  when: awscliv2_verify.failed is false
+
+- name: Install awscliv2
+  ansible.builtin.command: "./aws/install"
+  args:
+    chdir: "{{ ansible_user_dir }}"
+    creates: /usr/local/bin/aws
+  become: true
+  when: awscliv2_verify.failed is false
+
+- name: Cleanup home directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ ansible_user_dir }}/awscliv2.zip"
+    - "{{ ansible_user_dir }}/awscliv2.zip.sig"
+    - "{{ ansible_user_dir }}/aws-cli.key"
+    - "{{ ansible_user_dir }}/aws"

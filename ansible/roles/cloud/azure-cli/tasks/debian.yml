@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install azure-cli
+  ansible.builtin.apt:
+    name: ['azure-cli']
+    state: present
+  become: true

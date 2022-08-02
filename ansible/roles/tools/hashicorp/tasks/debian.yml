@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install terraform + packer + vagrant
+  ansible.builtin.apt:
+    name: ['terraform', 'packer', 'vagrant']
+    state: present
+  become: true

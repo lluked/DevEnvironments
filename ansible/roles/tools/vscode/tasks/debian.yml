@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install code
+  ansible.builtin.apt:
+    name: ['code']
+    state: present
+  become: true

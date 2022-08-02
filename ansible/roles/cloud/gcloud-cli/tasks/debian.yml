@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install google-cloud-cli
+  ansible.builtin.apt:
+    name: ['google-cloud-cli']
+    state: present
+  become: true

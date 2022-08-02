@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install kubectl
+  ansible.builtin.apt:
+    name: ['kubectl']
+    state: present
+  become: true

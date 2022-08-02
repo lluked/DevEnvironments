@@ -1,0 +1,15 @@
+# Custom Dictionary Words
+awscliv2
+chdir
+Cleanup
+dkms
+gcloud
+gpgcheck
+gpgkey
+hashicorp
+kubectl
+kubernetes
+minikube
+playbook
+playbooks
+vars

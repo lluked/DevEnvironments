@@ -1,0 +1,13 @@
+---
+
+- name: Add virtualbox repository
+  shell: yum-config-manager --add-repo=https://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
+  args:
+    creates: /etc/yum.repos.d/virtualbox.repo
+  become: true
+
+- name: Install virtualbox
+  ansible.builtin.yum:
+    name: ['VirtualBox-6.1']
+    state: present
+  become: true

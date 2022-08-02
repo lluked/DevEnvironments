@@ -1,0 +1,9 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install virtualbox
+  ansible.builtin.apt:
+    name: ['virtualbox-6.1']
+    state: present
+  become: true

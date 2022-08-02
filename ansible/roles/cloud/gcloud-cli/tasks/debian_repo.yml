@@ -1,0 +1,32 @@
+---
+
+- name: Download google-cloud-sdk gpg key
+  ansible.builtin.get_url:
+    url:  https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: "{{ ansible_user_dir }}/apt-key.gpg"
+    mode: '0440'
+    force: yes
+
+- name: De-armor gpg key
+  ansible.builtin.shell: "gpg --dearmor < {{ ansible_user_dir }}/apt-key.gpg > {{ ansible_user_dir }}/google-cloud-sdk-archive-keyring.gpg"
+  become: true
+
+- name: Install gpg key to /usr/share/keyrings/
+  ansible.builtin.shell: "install -o root -g root -m 644 {{ ansible_user_dir }}/google-cloud-sdk-archive-keyring.gpg /usr/share/keyrings/google-cloud-sdk-archive-keyring.gpg"
+  become: true
+
+- name: Cleanup home directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ ansible_user_dir }}/apt-key.gpg"
+    - "{{ ansible_user_dir }}/google-cloud-sdk-archive-keyring.gpg"
+
+- name: Configure google cloud sdk repository
+  ansible.builtin.apt_repository:
+    repo: 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-cloud-sdk-archive-keyring.gpg] https://packages.cloud.google.com/apt cloud-sdk main'
+    filename: google-cloud-sdk
+    state: present
+    update_cache: yes
+  become: true

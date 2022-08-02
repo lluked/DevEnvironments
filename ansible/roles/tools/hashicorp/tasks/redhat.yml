@@ -1,0 +1,13 @@
+---
+
+- name: Add hashicorp repository
+  shell: yum-config-manager --add-repo=https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+  args:
+    creates: /etc/yum.repos.d/hashicorp.repo
+  become: true
+
+- name: Install terraform + packer + vagrant
+  ansible.builtin.yum:
+    name: ['terraform', 'packer', 'vagrant']
+    state: present
+  become: true

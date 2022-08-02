@@ -1,0 +1,16 @@
+---
+
+- include_tasks: debian_repo.yml
+
+- name: Install podman
+  ansible.builtin.apt:
+    name: ['podman']
+    state: present
+  become: true
+
+- name: Start podman service
+  ansible.builtin.service:
+    name: "podman.service"
+    state: "started"
+    enabled: true
+  become: true
