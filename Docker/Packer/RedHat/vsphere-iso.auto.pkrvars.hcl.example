@@ -1,0 +1,8 @@
+###
+### vSphere-ISO Auto Vars
+###
+
+vsphere-iso_vcenter_server = "esxi.homelab"
+vsphere-iso_host           = "esxi.homelab"
+vsphere-iso_username       = "packer"
+vsphere-iso_password       = "packer"
