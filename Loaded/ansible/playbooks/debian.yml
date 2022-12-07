@@ -1,6 +1,6 @@
 ---
 
 - include_tasks: "{{ item }}"
-  loop: 
+  loop:
     - debian_update.yml
     - debian_packages.yml

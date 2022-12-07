@@ -1,6 +1,6 @@
 ---
 
 - include_tasks: "{{ item }}"
-  loop: 
+  loop:
     - redhat_update.yml
     - redhat_packages.yml

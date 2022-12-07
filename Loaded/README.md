@@ -1,6 +1,6 @@
-# DevEnvironments
+# Loaded
 
-Ansible configuration to setup development environments with Debian and RHEL based distribution's. As I am always using new distributions and computers this was created to provide a base setup on a fresh system. This has been developed with Vagrant to allow for efficient testing, currently boxes with no desktop environment are defined in the Vagrantfile however this can be changed to your base box that has a desktop environment if you wish.
+Ansible configuration to setup a development environment with either a Debian or RHEL based distribution.
 
 ## Playbooks
 
